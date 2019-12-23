@@ -5,7 +5,9 @@
  */
 package com.pityubak.breakoutgame;
 
-import com.pityubak.swinglibrary.SwingBuilder;
+import com.pityubak.gamelibrary.GameBuilder;
+
+
 
 /**
  *
@@ -15,7 +17,7 @@ public class Game {
 
     public static void main(String[] args) {
         
-        SwingBuilder builder=new SwingBuilder(new Class<?>[]{Board.class,Menu.class,Brick.class});
+        GameBuilder builder=new GameBuilder(new Class<?>[]{Board.class,Menu.class,Brick.class});
         
         builder.run(5);
     }

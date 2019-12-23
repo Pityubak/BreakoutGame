@@ -5,15 +5,15 @@
  */
 package com.pityubak.breakoutgame;
 
+import com.pityubak.gamelibrary.annotations.EntityList;
+import com.pityubak.gamelibrary.annotations.Get;
+import com.pityubak.gamelibrary.annotations.Observeable;
+import com.pityubak.gamelibrary.components.SwingComponent;
+import com.pityubak.gamelibrary.components.SwingEntity;
+import com.pityubak.gamelibrary.components.SwingPanel;
+import com.pityubak.gamelibrary.misc.DrawingType;
 import com.pityubak.liberator.data.RuntimeObject;
 
-import com.pityubak.swinglibrary.annotations.EntityList;
-import com.pityubak.swinglibrary.annotations.Get;
-import com.pityubak.swinglibrary.annotations.Observeable;
-import com.pityubak.swinglibrary.components.SwingEntity;
-import com.pityubak.swinglibrary.components.SwingPanel;
-import com.pityubak.swinglibrary.components.SwingComponent;
-import com.pityubak.swinglibrary.misc.DrawingType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,10 +25,8 @@ import java.util.Random;
 @Observeable("Brick")
 public class Brick implements SwingComponent {
 
- 
-    
     Random random = new Random();
-    
+
     @Get("mainPanel")
     private RuntimeObject mainPanel;
 
@@ -40,7 +38,6 @@ public class Brick implements SwingComponent {
     @Observeable("list")
     private final RuntimeObject list = new RuntimeObject(ArrayList.class);
 
-    //
     @Override
     public void init() {
         SwingPanel panel = (SwingPanel) this.mainPanel.get();

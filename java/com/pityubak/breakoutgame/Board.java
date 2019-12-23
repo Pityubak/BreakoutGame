@@ -5,28 +5,26 @@
  */
 package com.pityubak.breakoutgame;
 
-import com.pityubak.swinglibrary.annotations.Action;
-import com.pityubak.swinglibrary.annotations.Actions;
-import com.pityubak.swinglibrary.annotations.Binding;
-import com.pityubak.swinglibrary.annotations.Bindings;
-import com.pityubak.swinglibrary.annotations.Button;
-import com.pityubak.swinglibrary.annotations.Entity;
-import com.pityubak.swinglibrary.annotations.Get;
-import com.pityubak.swinglibrary.annotations.Label;
-import com.pityubak.swinglibrary.annotations.Message;
-import com.pityubak.swinglibrary.annotations.Observeable;
-import com.pityubak.swinglibrary.annotations.Panel;
-import com.pityubak.swinglibrary.annotations.Window;
-import com.pityubak.swinglibrary.components.RunnableComponent;
-import com.pityubak.swinglibrary.components.SwingEntity;
-import com.pityubak.swinglibrary.components.SwingFrame;
-import com.pityubak.swinglibrary.components.SwingPanel;
-import com.pityubak.swinglibrary.components.SwingText;
-import com.pityubak.swinglibrary.misc.ColorType;
-import com.pityubak.swinglibrary.misc.DrawingType;
-import com.pityubak.swinglibrary.misc.PredefinedAction;
-import com.pityubak.swinglibrary.service.ColorConvertService;
+import com.pityubak.gamelibrary.annotations.Action;
+import com.pityubak.gamelibrary.annotations.Binding;
+import com.pityubak.gamelibrary.annotations.Button;
+import com.pityubak.gamelibrary.annotations.Entity;
+import com.pityubak.gamelibrary.annotations.Get;
+import com.pityubak.gamelibrary.annotations.Label;
+import com.pityubak.gamelibrary.annotations.Message;
+import com.pityubak.gamelibrary.annotations.Observeable;
+import com.pityubak.gamelibrary.annotations.Panel;
+import com.pityubak.gamelibrary.annotations.Window;
+import com.pityubak.gamelibrary.components.RunnableComponent;
+import com.pityubak.gamelibrary.components.SwingEntity;
+import com.pityubak.gamelibrary.components.SwingFrame;
+import com.pityubak.gamelibrary.components.SwingPanel;
+import com.pityubak.gamelibrary.components.SwingText;
+import com.pityubak.gamelibrary.misc.ColorType;
+import com.pityubak.gamelibrary.misc.DrawingType;
+import com.pityubak.gamelibrary.misc.PredefinedAction;
 import com.pityubak.liberator.data.RuntimeObject;
+import com.pityubak.gamelibrary.service.ColorConvertService;
 
 import java.awt.Font;
 import java.awt.Point;
@@ -53,15 +51,11 @@ public final class Board implements RunnableComponent {
     private SwingFrame frame;
 
     @Panel(draggable = true, bgColor = ColorType.FLORAL_WHITE)
-    @Bindings({
-        @Binding(actionType = PredefinedAction.LEVEL, parent = "frame", targetName = "menuPanel",
-                actionName = "pause", targetVar = "isPause")})
-    @Actions({
-        @Action(key = KeyEvent.VK_LEFT, actionName = "PaddleLeft", action = "moveLeft"),
-        @Action(key = KeyEvent.VK_RIGHT, actionName = "PaddleRight", action = "moveRight"),
-        @Action(key = KeyEvent.VK_ESCAPE, actionName = "showPanel", action = "pause")
-    }
-    )
+    @Binding(actionType = PredefinedAction.LEVEL, parent = "frame", targetName = "menuPanel",
+            actionName = "pause", targetVar = "isPause")
+    @Action(key = KeyEvent.VK_LEFT, actionName = "PaddleLeft", action = "moveLeft")
+    @Action(key = KeyEvent.VK_RIGHT, actionName = "PaddleRight", action = "moveRight")
+    @Action(key = KeyEvent.VK_ESCAPE, actionName = "showPanel", action = "pause")
     private SwingPanel panel;
 
     @Entity(draw = DrawingType.DRAW_IMAGE, x = 300,
@@ -71,19 +65,17 @@ public final class Board implements RunnableComponent {
 
     @Entity(x = 300, y = 570, color = ColorType.DARK_SLATE_GRAY, width = 200, height = 30,
             xDir = 1, yDir = 1, draw = DrawingType.DRAW_IMAGE, image = "/paddle.png")
-    @Bindings({
-        @Binding(actionType = PredefinedAction.LEFT_MOVE, speed = 20, actionName = "moveLeft"),
-        @Binding(actionType = PredefinedAction.RIGHT_MOVE, speed = 20, actionName = "moveRight")})
+
+    @Binding(actionType = PredefinedAction.LEFT_MOVE, speed = 20, actionName = "moveLeft")
+    @Binding(actionType = PredefinedAction.RIGHT_MOVE, speed = 20, actionName = "moveRight")
     private SwingEntity paddle;
 
     @Button(width = 150, height = 50, text = "Exit", x = 225, y = 540, bgColor = ColorType.CORN_FLOWER_BLUE)
-    @Bindings(
-            @Binding(actionType = PredefinedAction.EXIT, targetName = "frame"))
+    @Binding(actionType = PredefinedAction.EXIT, targetName = "frame")
     private JButton exitBtn;
 
     @Button(width = 150, height = 50, text = "Restart Game", x = 425, y = 540, bgColor = ColorType.CORN_FLOWER_BLUE)
-    @Bindings(
-            @Binding(actionType = PredefinedAction.RESET, resetComponents = {"Board", "Brick", "Menu"}))
+    @Binding(actionType = PredefinedAction.RESET, resetComponents = {"Board", "Brick", "Menu"})
     private JButton resetBtn;
 
     @Message(message = "GAME OVER", color = ColorType.RED, width = 325, height = 300)
@@ -131,24 +123,24 @@ public final class Board implements RunnableComponent {
     private void modifyBallDirection(SwingEntity brick, Point pointRight,
             Point pointLeft, Point pointTop, Point pointBottom) {
         if (brick.getBounds().contains(pointRight)) {
-            
+
             ball.setxDir(-1);
         } else if (brick.getBounds().contains(pointLeft)) {
-            
+
             ball.setxDir(1);
         }
-        
+
         if (brick.getBounds().contains(pointTop)) {
-            
+
             ball.setyDir(1);
         } else if (brick.getBounds().contains(pointBottom)) {
-            
+
             ball.setyDir(-1);
         }
         if (random.nextInt(2) == 1) {
             brick.destroy();
             score += brick.getImageName().contains("_broken") ? 5 : 10;
-            
+
         } else {
             String img = brick.getImageName().replace(".png", "");
             String target = "/bricks/" + img + "_broken.png";
